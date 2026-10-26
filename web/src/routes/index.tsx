@@ -16,10 +16,21 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 
-import { Home } from '@/features/home'
+import { resolveAuthentication } from '@/lib/auth-session'
+import { useAuthStore } from '@/stores/auth-store'
 
+// BrushLLM: the marketing home page is retired. `/` is auth-aware so links
+// never bounce through the sign-in guard: members land on the console,
+// visitors on the sign-in page (the public homepage).
 export const Route = createFileRoute('/')({
-  component: Home,
+  beforeLoad: async () => {
+    await resolveAuthentication()
+    const { auth } = useAuthStore.getState()
+    throw redirect({
+      to: auth.user ? '/dashboard' : '/sign-in',
+      replace: true,
+    })
+  },
 })

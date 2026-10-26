@@ -16,9 +16,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { Link } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 
+import { LanguageSwitcher } from '@/components/language-switcher'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useSystemConfig } from '@/hooks/use-system-config'
 
@@ -84,7 +84,7 @@ function BrandCanvas() {
       </div>
 
       <div className='relative mt-9'>
-        <div className='text-white/40 mb-3 text-[11px] tracking-[0.14em] uppercase'>
+        <div className='text-white/50 mb-3 text-[11px] tracking-[0.14em] uppercase'>
           {t('auth.brand.providersLabel')}
         </div>
         <div className='flex flex-wrap gap-2'>
@@ -178,28 +178,49 @@ export function AuthLayout({ children }: AuthLayoutProps) {
     <div className='relative grid min-h-svh w-full lg:grid-cols-[1.15fr_1fr]'>
       <BrandCanvas />
 
-      {/* Wordmark for the form side (mobile + desktop top-left). */}
-      <Link
-        to='/'
-        className='absolute top-6 left-6 z-20 flex items-center gap-2 transition-opacity hover:opacity-80 lg:hidden'
-      >
+      {/* Brand mark for the form side (mobile only — the canvas is hidden
+          below lg). Non-interactive: `/` now redirects back to /sign-in, so
+          a link here would be a no-op loop. */}
+      <div className='absolute top-6 left-6 z-20 flex items-center gap-2 lg:hidden'>
         {loading ? (
-          <Skeleton className='h-8 w-8 rounded-full' />
+          <Skeleton className='h-8 w-8 rounded-xl' />
         ) : (
           <img
             src={logo}
             alt={t('Logo')}
-            className='h-8 w-8 rounded-full object-cover'
+            className='h-8 w-8 rounded-xl object-cover'
           />
         )}
-      </Link>
+      </div>
 
       <div className='relative flex items-center justify-center px-4 py-16 sm:px-8 lg:py-0'>
         {/* soft violet glow on the form side, echoing the canvas */}
         <div
           aria-hidden='true'
-          className='from-primary/6 pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_100%_0%,rgba(137,60,237,0.07),transparent_70%)]'
+          className='pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_100%_0%,rgba(137,60,237,0.07),transparent_70%)]'
         />
+        {/* language switcher — the sign-in page is the public homepage, so
+            visitors must be able to pick their language before signing in */}
+        <div className='absolute top-4 right-4 z-20 sm:top-6 sm:right-6'>
+          <LanguageSwitcher />
+        </div>
+        {/* AGPLv3 attribution — the official upstream copyright notice. The
+            retired marketing home was the only Footer host, so the sign-in
+            page (now the public homepage) carries the attribution instead.
+            Key is assembled obfuscated, mirroring footer.tsx, to survive
+            naive brand-replacement sweeps. */}
+        <div className='text-muted-foreground/55 absolute inset-x-0 bottom-3 z-10 px-4 text-center text-[11px] leading-relaxed sm:bottom-5'>
+          &copy; {new Date().getFullYear()}{' '}
+          <a
+            href='https://github.com/QuantumNous/new-api'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='text-muted-foreground/80 hover:text-foreground transition-colors'
+          >
+            New API
+          </a>
+          . {t(['footer', 'new' + 'api', 'projectAttributionSuffix'].join('.'))}
+        </div>
         <div className='relative mx-auto flex w-full max-w-[400px] flex-col justify-center space-y-2'>
           {children}
         </div>

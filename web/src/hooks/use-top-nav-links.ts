@@ -62,8 +62,10 @@ export function useTopNavLinks(): TopNavLink[] {
 
   const links: TopNavLink[] = []
 
-  // Home
-  if (modules?.home !== false) {
+  // Home — only for visitors: `/` is the sign-in page for them. Members
+  // already have the Console entry, and a Home link that resolves back to
+  // the current console page reads as a dead click.
+  if (modules?.home !== false && !isAuthed) {
     links.push({ title: t('Home'), href: '/' })
   }
 

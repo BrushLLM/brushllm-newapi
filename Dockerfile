@@ -14,6 +14,11 @@ ARG TARGETOS
 ARG TARGETARCH
 ENV GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH:-amd64}
 ENV GOEXPERIMENT=greenteagc
+# Optional module proxy override for networks where proxy.golang.org is
+# unreliable, e.g.: docker build --build-arg GOPROXY=https://goproxy.cn,direct .
+# CI keeps the default.
+ARG GOPROXY=https://proxy.golang.org,direct
+ENV GOPROXY=${GOPROXY}
 
 WORKDIR /build
 
