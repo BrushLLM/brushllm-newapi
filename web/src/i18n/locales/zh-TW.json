@@ -3120,7 +3120,7 @@
     "https://example.com/topup": "https://example.com/topup",
     "https://example.com/webhook": "https://example.com/webhook",
     "https://gateway.example.com": "https://gateway.example.com",
-    "https://github.com/QuantumNous/new-api": "https://github.com/BrushLLM/new-api",
+    "https://github.com/QuantumNous/new-api": "https://github.com/QuantumNous/new-api",
     "https://gotify.example.com": "https://gotify.example.com",
     "https://pay.example.com": "https://pay.example.com",
     "https://provider.com/.well-known/openid-configuration": "https://provider.com/.well-known/openid-configuration",
@@ -4959,7 +4959,7 @@
     "QR code is not configured. Please contact support.": "二維碼未設定。請聯絡支援人員。",
     "Quality {{quality}}": "品質 {{quality}}",
     "Quantity": "數量",
-    "QuantumNous": "BrushLLM",
+    "QuantumNous": "QuantumNous",
     "Query": "Query",
     "Query Balance": "查詢餘額",
     "Query Param": "請求參數",
@@ -7367,6 +7367,7 @@
     "auth.brand.providersLabel": "已接入的供應商",
     "auth.brand.stat.models": "線上模型",
     "auth.brand.stat.uptime": "服務可用性",
-    "auth.brand.stat.latency": "接入延遲"
+    "auth.brand.stat.latency": "接入延遲",
+    "preset.brushllm": "BrushLLM"
   }
 }

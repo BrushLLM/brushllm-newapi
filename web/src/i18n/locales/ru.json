@@ -3120,7 +3120,7 @@
     "https://example.com/topup": "https://example.com/topup",
     "https://example.com/webhook": "https://example.com/webhook",
     "https://gateway.example.com": "https://gateway.example.com",
-    "https://github.com/QuantumNous/new-api": "https://github.com/BrushLLM/new-api",
+    "https://github.com/QuantumNous/new-api": "https://github.com/QuantumNous/new-api",
     "https://gotify.example.com": "https://gotify.example.com",
     "https://pay.example.com": "https://pay.example.com",
     "https://provider.com/.well-known/openid-configuration": "https://provider.com/.well-known/openid-configuration",
@@ -4959,7 +4959,7 @@
     "QR code is not configured. Please contact support.": "QR-код не настроен. Пожалуйста, свяжитесь со службой поддержки.",
     "Quality {{quality}}": "Качество {{quality}}",
     "Quantity": "Количество",
-    "QuantumNous": "BrushLLM",
+    "QuantumNous": "QuantumNous",
     "Query": "Query",
     "Query Balance": "Баланс запросов",
     "Query Param": "Параметр запроса",
@@ -7367,6 +7367,7 @@
     "auth.brand.providersLabel": "ПОДДЕРЖИВАЕМЫЕ ПРОВАЙДЕРЫ",
     "auth.brand.stat.models": "Моделей онлайн",
     "auth.brand.stat.uptime": "Доступность",
-    "auth.brand.stat.latency": "Задержка edge"
+    "auth.brand.stat.latency": "Задержка edge",
+    "preset.brushllm": "BrushLLM"
   }
 }

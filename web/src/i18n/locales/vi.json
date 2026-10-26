@@ -3120,7 +3120,7 @@
     "https://example.com/topup": "https://example.com/topup",
     "https://example.com/webhook": "https://example.com/webhook",
     "https://gateway.example.com": "https://gateway.example.com",
-    "https://github.com/QuantumNous/new-api": "https://github.com/BrushLLM/new-api",
+    "https://github.com/QuantumNous/new-api": "https://github.com/QuantumNous/new-api",
     "https://gotify.example.com": "https://gotify.example.com",
     "https://pay.example.com": "https://pay.example.com",
     "https://provider.com/.well-known/openid-configuration": "https://provider.com/.well-known/openid-configuration",
@@ -4959,7 +4959,7 @@
     "QR code is not configured. Please contact support.": "Mã QR chưa được cấu hình. Vui lòng liên hệ bộ phận hỗ trợ.",
     "Quality {{quality}}": "Chất lượng {{quality}}",
     "Quantity": "Số lượng",
-    "QuantumNous": "BrushLLM",
+    "QuantumNous": "QuantumNous",
     "Query": "Query",
     "Query Balance": "Truy vấn số dư",
     "Query Param": "Query param",
@@ -7367,6 +7367,7 @@
     "auth.brand.providersLabel": "NHÀ CUNG CẤP ĐƯỢC HỖ TRỢ",
     "auth.brand.stat.models": "Mô hình trực tuyến",
     "auth.brand.stat.uptime": "Thời gian hoạt động",
-    "auth.brand.stat.latency": "Độ trễ edge"
+    "auth.brand.stat.latency": "Độ trễ edge",
+    "preset.brushllm": "BrushLLM"
   }
 }

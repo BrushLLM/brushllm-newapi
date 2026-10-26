@@ -11,7 +11,7 @@ import (
 )
 
 var StartTime = time.Now().Unix() // unit: second
-var Version = "v0.0.0"            // this hard coding will be replaced automatically when building, no need to manually change
+var Version = "v1.0.0-rc.47"       // tracks the upstream QuantumNous/new-api release this fork is based on; keep in sync with the VERSION file on upgrades
 var SystemName = "BrushLLM"
 var Footer = ""
 var Logo = ""

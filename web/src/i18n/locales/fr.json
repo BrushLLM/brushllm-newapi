@@ -3120,7 +3120,7 @@
     "https://example.com/topup": "https://example.com/topup",
     "https://example.com/webhook": "https://example.com/webhook",
     "https://gateway.example.com": "https://gateway.example.com",
-    "https://github.com/QuantumNous/new-api": "https://github.com/BrushLLM/new-api",
+    "https://github.com/QuantumNous/new-api": "https://github.com/QuantumNous/new-api",
     "https://gotify.example.com": "https://gotify.example.com",
     "https://pay.example.com": "https://pay.example.com",
     "https://provider.com/.well-known/openid-configuration": "https://provider.com/.well-known/openid-configuration",
@@ -4959,7 +4959,7 @@
     "QR code is not configured. Please contact support.": "Le code QR n'est pas configuré. Veuillez contacter le support.",
     "Quality {{quality}}": "Qualité {{quality}}",
     "Quantity": "Quantité",
-    "QuantumNous": "BrushLLM",
+    "QuantumNous": "QuantumNous",
     "Query": "Query",
     "Query Balance": "Solde des requêtes",
     "Query Param": "Paramètre de requête",
@@ -7367,6 +7367,7 @@
     "auth.brand.providersLabel": "FOURNISSEURS PRIS EN CHARGE",
     "auth.brand.stat.models": "Modèles en ligne",
     "auth.brand.stat.uptime": "Disponibilité",
-    "auth.brand.stat.latency": "Latence edge"
+    "auth.brand.stat.latency": "Latence edge",
+    "preset.brushllm": "BrushLLM"
   }
 }

@@ -163,7 +163,7 @@ export function SystemInfoSection({ defaultValues }: SystemInfoSectionProps) {
                   <FormItem>
                     <FormLabel>{t('System Name')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={t('BrushLLM')} {...field} />
+                      <Input placeholder={t('New API')} {...field} />
                     </FormControl>
                     <FormDescription>
                       {t('The name displayed across the application')}
