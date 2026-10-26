@@ -25,6 +25,14 @@ For commercial licensing, please contact support@quantumnous.com
 
 export const THEME_PRESETS = [
   {
+    // BrushLLM brand preset (brushllm.com): violet primary, mint/yellow
+    // accents, Inter body + Space Grotesk display. Sits first because it is
+    // the deployment default for this fork.
+    value: 'brushllm',
+    name: 'BrushLLM',
+    swatches: ['oklch(0.5571 0.2456 297.47)', 'oklch(0.8529 0.1551 174.55)'],
+  },
+  {
     value: 'default',
     name: 'Default',
     swatches: ['oklch(0.72 0.18 250)', 'oklch(0.7 0.12 280)'],
@@ -112,7 +120,7 @@ export type ThemeCustomization = {
 }
 
 export const DEFAULT_THEME_CUSTOMIZATION: ThemeCustomization = {
-  preset: 'default',
+  preset: 'brushllm',
   font: 'default',
   radius: 'default',
   scale: 'default',

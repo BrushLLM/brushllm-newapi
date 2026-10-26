@@ -21,6 +21,12 @@ For commercial licensing, please contact support@quantumnous.com
 @theme inline {
   --font-sans: var(--font-ui-sans);
   --font-public-sans: 'Public Sans Variable', 'Public Sans', sans-serif;
+  /* BrushLLM display face — Space Grotesk for headings and brand numerals.
+   * Falls through Inter, then the platform stack, then CJK sans faces. */
+  --font-display:
+    'Space Grotesk Variable', 'Space Grotesk', 'Inter Variable', 'Inter',
+    ui-sans-serif, system-ui, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
   /* Editorial serif token — the body face used by the `serif` font axis
    * and by presets that opt in (currently Anthropic). Lora carries only
    * Latin glyphs, so the stack walks through CJK serifs (Noto / Source Han

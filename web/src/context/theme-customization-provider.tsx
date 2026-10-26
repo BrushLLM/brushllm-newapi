@@ -126,11 +126,13 @@ export function ThemeCustomizationProvider(props: {
   )
 
   // Mirror state to the <body> via data-* attributes so theme-presets.css can
-  // override CSS variables at the right cascade layer.
+  // override CSS variables at the right cascade layer. Only the stock
+  // `default` preset omits the attribute (its tokens live in :root); every
+  // named preset — including this fork's brushllm default — must set it.
   useEffect(() => {
     applyAttribute(
       'data-theme-preset',
-      preset === DEFAULT_THEME_CUSTOMIZATION.preset ? null : preset
+      preset === 'default' ? null : preset
     )
   }, [preset])
 

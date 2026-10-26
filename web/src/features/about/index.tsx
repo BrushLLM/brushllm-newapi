@@ -47,25 +47,29 @@ function EmptyAboutState() {
           </p>
         </div>
         <div className='space-y-4 text-sm'>
+          {/* Brand + upstream attribution. These lines are the legal notice
+              location for the AGPLv3 additional terms, so they stay in
+              English and keep the original project links verbatim. */}
           <p>
-            {t('New API Project Repository:')}{' '}
+            BrushLLM Console ·{' '}
             <a
-              href='https://github.com/QuantumNous/new-api'
+              href='https://brushllm.com'
               target='_blank'
               rel='noopener noreferrer'
               className='text-primary hover:underline'
             >
-              {t('https://github.com/QuantumNous/new-api')}
+              brushllm.com
             </a>
           </p>
           <p className='text-muted-foreground'>
+            Powered by the open-source project{' '}
             <a
               href='https://github.com/QuantumNous/new-api'
               target='_blank'
               rel='noopener noreferrer'
               className='text-primary hover:underline'
             >
-              {t('NewAPI')}
+              New API
             </a>{' '}
             © {currentYear}{' '}
             <a
@@ -74,16 +78,16 @@ function EmptyAboutState() {
               rel='noopener noreferrer'
               className='text-primary hover:underline'
             >
-              {t('QuantumNous')}
+              QuantumNous
             </a>{' '}
-            {t('| Based on')}{' '}
+            | Based on{' '}
             <a
               href='https://github.com/songquanpeng/one-api'
               target='_blank'
               rel='noopener noreferrer'
               className='text-primary hover:underline'
             >
-              {t('One API')}
+              One API
             </a>{' '}
             © 2023{' '}
             <a
@@ -92,18 +96,18 @@ function EmptyAboutState() {
               rel='noopener noreferrer'
               className='text-primary hover:underline'
             >
-              {t('JustSong')}
+              JustSong
             </a>
           </p>
           <p className='text-muted-foreground'>
-            {t('This project must be used in compliance with the')}{' '}
+            This project must be used in compliance with the{' '}
             <a
               href='https://github.com/QuantumNous/new-api/blob/main/LICENSE'
               target='_blank'
               rel='noopener noreferrer'
               className='text-primary hover:underline'
             >
-              {t('AGPL v3.0 License')}
+              AGPL v3.0 License
             </a>
             .
           </p>

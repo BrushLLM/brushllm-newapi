@@ -26,35 +26,181 @@ type AuthLayoutProps = {
   children: React.ReactNode
 }
 
-export function AuthLayout({ children }: AuthLayoutProps) {
+/* Brand canvas shown beside the form on wide screens. Palette is fixed ink
+ * (brushllm.com hero canvas) and intentionally independent of the active
+ * theme preset so the first screen always lands the brand. */
+function BrandCanvas() {
+  const { t } = useTranslation()
+  const chips = [
+    'GPT-5.2',
+    'Claude Opus 4.6',
+    'Gemini 3 Pro',
+    'DeepSeek V4',
+    'Qwen-Max',
+  ]
+  const stats = [
+    { value: '200+', key: 'auth.brand.stat.models' },
+    { value: '99.9%', key: 'auth.brand.stat.uptime' },
+    { value: '<80ms', key: 'auth.brand.stat.latency' },
+  ]
+  return (
+    <aside className='bg-[#1a1b25] relative hidden overflow-hidden p-12 text-white lg:flex lg:flex-col xl:p-14'>
+      {/* graph-paper grid */}
+      <div
+        aria-hidden='true'
+        className='absolute inset-0'
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(137,60,237,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(137,60,237,0.08) 1px, transparent 1px)',
+          backgroundSize: '44px 44px',
+        }}
+      />
+      {/* aurora glows */}
+      <div
+        aria-hidden='true'
+        className='absolute -top-32 right-[-120px] h-[420px] w-[420px] rounded-full bg-[#893ced]/40 blur-[90px]'
+      />
+      <div
+        aria-hidden='true'
+        className='absolute bottom-[-120px] left-[-100px] h-[340px] w-[340px] rounded-full bg-[#2aefc8]/25 blur-[90px]'
+      />
+
+      <div className='relative flex items-center gap-2.5'>
+        <BrandMark />
+      </div>
+
+      <div className='relative mt-20 max-w-[520px] xl:mt-24'>
+        <div className='text-[#2aefc8] font-mono text-[11px] tracking-[0.22em] uppercase'>
+          {t('auth.brand.eyebrow')}
+        </div>
+        <h1 className='font-display text-5xl leading-[1.08] font-bold tracking-[-0.03em] xl:text-[56px]'>
+          {t('auth.brand.headlineLead')}{' '}
+          <span className='brush-band-mint'>{t('auth.brand.headlineBand')}</span>
+          {t('auth.brand.headlineTail')}
+        </h1>
+        <p className='mt-5 max-w-[420px] text-[15px] leading-relaxed text-white/60'>
+          {t('auth.brand.sub')}
+        </p>
+      </div>
+
+      <div className='relative mt-9'>
+        <div className='text-white/40 mb-3 text-[11px] tracking-[0.14em] uppercase'>
+          {t('auth.brand.providersLabel')}
+        </div>
+        <div className='flex flex-wrap gap-2'>
+          {chips.map((chip, i) => (
+            <span
+              key={chip}
+              className={
+                i === 0
+                  ? 'rounded-full border border-transparent bg-[#893ced] px-3 py-1.5 font-mono text-[11.5px] text-white shadow-[0_2px_10px_rgba(137,60,237,0.35)]'
+                  : 'rounded-full border border-white/15 bg-white/5 px-3 py-1.5 font-mono text-[11.5px] text-white/80'
+              }
+            >
+              {chip}
+            </span>
+          ))}
+          <span className='rounded-full border border-white/15 bg-white/5 px-3 py-1.5 font-mono text-[11.5px] text-white/80'>
+            + 32 more
+          </span>
+        </div>
+      </div>
+
+      {/* hand-drawn strokes, bottom right */}
+      <svg
+        aria-hidden='true'
+        className='absolute right-[-30px] bottom-[70px] h-[200px] w-[260px]'
+        viewBox='0 0 260 200'
+        fill='none'
+      >
+        <path
+          d='M40 150 C 90 60, 180 40, 230 90'
+          stroke='#893ced'
+          strokeWidth='14'
+          strokeLinecap='round'
+          opacity='0.55'
+        />
+        <path
+          d='M60 170 C 110 100, 170 80, 215 120'
+          stroke='#2aefc8'
+          strokeWidth='9'
+          strokeLinecap='round'
+          opacity='0.5'
+        />
+        <path
+          d='M30 120 C 70 40, 160 20, 225 60'
+          stroke='#f4ea2a'
+          strokeWidth='5'
+          strokeLinecap='round'
+          opacity='0.45'
+        />
+      </svg>
+
+      <div className='relative mt-auto flex border-t border-white/10 pt-6'>
+        {stats.map((stat, i) => (
+          <div
+            key={stat.key}
+            className={i > 0 ? 'ml-6 border-l border-white/10 pl-6' : ''}
+          >
+            <div className='font-display text-[22px] font-bold tracking-[-0.02em]'>
+              {stat.value}
+            </div>
+            <div className='text-white/50 text-xs'>{t(stat.key)}</div>
+          </div>
+        ))}
+      </div>
+    </aside>
+  )
+}
+
+function BrandMark() {
   const { t } = useTranslation()
   const { systemName, logo, loading } = useSystemConfig()
+  return (
+    <>
+      {loading ? (
+        <Skeleton className='h-9 w-9 rounded-xl' />
+      ) : (
+        <img src={logo} alt={t('Logo')} className='h-9 w-9 rounded-xl' />
+      )}
+      <span className='font-display text-xl font-bold tracking-[-0.02em]'>
+        {systemName || 'BrushLLM'}
+      </span>
+    </>
+  )
+}
+
+export function AuthLayout({ children }: AuthLayoutProps) {
+  const { t } = useTranslation()
+  const { logo, loading } = useSystemConfig()
 
   return (
-    <div className='relative grid h-svh max-w-none'>
+    <div className='relative grid min-h-svh w-full lg:grid-cols-[1.15fr_1fr]'>
+      <BrandCanvas />
+
+      {/* Wordmark for the form side (mobile + desktop top-left). */}
       <Link
         to='/'
-        className='absolute top-4 left-4 z-10 flex items-center gap-2 transition-opacity hover:opacity-80 sm:top-8 sm:left-8'
+        className='absolute top-6 left-6 z-20 flex items-center gap-2 transition-opacity hover:opacity-80 lg:hidden'
       >
-        <div className='relative h-8 w-8'>
-          {loading ? (
-            <Skeleton className='absolute inset-0 rounded-full' />
-          ) : (
-            <img
-              src={logo}
-              alt={t('Logo')}
-              className='h-8 w-8 rounded-full object-cover'
-            />
-          )}
-        </div>
         {loading ? (
-          <Skeleton className='h-6 w-24' />
+          <Skeleton className='h-8 w-8 rounded-full' />
         ) : (
-          <h1 className='text-xl font-medium'>{systemName}</h1>
+          <img
+            src={logo}
+            alt={t('Logo')}
+            className='h-8 w-8 rounded-full object-cover'
+          />
         )}
       </Link>
-      <div className='container flex items-center pt-16 sm:pt-0'>
-        <div className='mx-auto flex w-full flex-col justify-center space-y-2 px-4 py-8 sm:w-[480px] sm:p-8'>
+
+      <div className='relative flex items-center justify-center px-4 py-16 sm:px-8 lg:py-0'>
+        {/* soft violet glow on the form side, echoing the canvas */}
+        <div
+          aria-hidden='true'
+          className='from-primary/6 pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_100%_0%,rgba(137,60,237,0.07),transparent_70%)]'
+        />
+        <div className='relative mx-auto flex w-full max-w-[400px] flex-col justify-center space-y-2'>
           {children}
         </div>
       </div>

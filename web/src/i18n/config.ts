@@ -21,9 +21,13 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
 import { convertDetectedLanguage } from './languages'
+import de from './locales/de.json'
 import en from './locales/en.json'
+import es from './locales/es.json'
 import fr from './locales/fr.json'
 import ja from './locales/ja.json'
+import ko from './locales/ko.json'
+import ptBR from './locales/ptBR.json'
 import ru from './locales/ru.json'
 import vi from './locales/vi.json'
 import zhTW from './locales/zh-TW.json'
@@ -31,12 +35,16 @@ import zhCN from './locales/zh.json'
 
 export const resources = {
   en,
-  zhCN,
+  de,
+  es,
   fr,
-  ru,
+  ptBR,
   ja,
-  vi,
+  zhCN,
   zhTW,
+  ko,
+  ru,
+  vi,
 } as const
 
 i18n
@@ -45,7 +53,19 @@ i18n
   .init({
     resources,
     fallbackLng: 'en',
-    supportedLngs: ['en', 'zhCN', 'fr', 'ru', 'ja', 'vi', 'zhTW'],
+    supportedLngs: [
+      'en',
+      'de',
+      'es',
+      'fr',
+      'ptBR',
+      'ja',
+      'zhCN',
+      'zhTW',
+      'ko',
+      'ru',
+      'vi',
+    ],
     load: 'currentOnly',
     nsSeparator: false, // Allow literal colons in keys (e.g., URLs, labels)
     debug: import.meta.env.DEV,

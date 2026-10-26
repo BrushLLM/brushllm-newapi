@@ -16,14 +16,21 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
+/* Language list order follows the BrushLLM console spec; languages not in
+ * that list (ru, vi) sit after Korean. Codes are the non-standard camelCase
+ * values i18next registers in resources/supportedLngs. */
 export const INTERFACE_LANGUAGE_OPTIONS = [
-  { code: 'zhCN', label: '简体中文' },
   { code: 'en', label: 'English' },
+  { code: 'de', label: 'Deutsch' },
+  { code: 'es', label: 'Español' },
   { code: 'fr', label: 'Français' },
-  { code: 'ru', label: 'Русский' },
+  { code: 'ptBR', label: 'Português (Brasil)' },
   { code: 'ja', label: '日本語' },
-  { code: 'vi', label: 'Tiếng Việt' },
+  { code: 'zhCN', label: '简体中文' },
   { code: 'zhTW', label: '繁體中文' },
+  { code: 'ko', label: '한국어' },
+  { code: 'ru', label: 'Русский' },
+  { code: 'vi', label: 'Tiếng Việt' },
 ] as const
 
 export type InterfaceLanguageCode =
@@ -44,6 +51,9 @@ export function normalizeInterfaceLanguage(value?: string | null): string {
   if (value === 'zh-CN' || value === 'zh-Hans' || value === 'zhCN') {
     normalized = 'zhCN'
   }
+  if (value === 'pt-BR' || value === 'ptBR') {
+    normalized = 'ptBR'
+  }
 
   return INTERFACE_LANGUAGE_OPTIONS.some((lang) => lang.code === normalized)
     ? normalized
@@ -52,27 +62,38 @@ export function normalizeInterfaceLanguage(value?: string | null): string {
 
 /**
  * Map a browser-detected locale onto the interface language codes this project
- * uses with i18next (`zhCN` / `zhTW`).
+ * uses with i18next (`zhCN` / `zhTW` / `ptBR`).
  *
- * Browsers report standard BCP-47 tags (`zh-CN`, `zh-TW`, `zh-Hant`, `zh`, ...),
- * but `supportedLngs`/resources use the non-standard camelCase codes, so without
- * this mapping a Chinese browser would never match and fall back to English.
- * Non-Chinese codes are returned unchanged so i18next's own `supportedLngs`
- * matching still applies (e.g. `fr-FR` -> `fr`, `ja` -> `ja`).
+ * Browsers report standard BCP-47 tags (`zh-CN`, `pt-BR`, `de-DE`, ...), but
+ * `supportedLngs` uses the non-standard camelCase codes AND `load:
+ * 'currentOnly'` only matches exact codes, so without normalization a
+ * `de-DE`/`fr-FR`/`pt-BR` browser would fall back to English. Chinese and
+ * Portuguese variants collapse onto our single variants; every other language
+ * strips its region subtag to the base code.
  */
 export function convertDetectedLanguage(value: string): string {
   const lower = value.trim().replaceAll('_', '-').toLowerCase()
-  if (!lower.startsWith('zh')) return value
-  if (
-    lower === 'zhtw' ||
-    lower === 'zh-tw' ||
-    lower === 'zh-hk' ||
-    lower === 'zh-mo' ||
-    lower.startsWith('zh-hant')
-  ) {
-    return 'zhTW'
+  if (lower.startsWith('zh')) {
+    if (
+      lower === 'zhtw' ||
+      lower === 'zh-tw' ||
+      lower === 'zh-hk' ||
+      lower === 'zh-mo' ||
+      lower.startsWith('zh-hant')
+    ) {
+      return 'zhTW'
+    }
+    return 'zhCN'
   }
-  return 'zhCN'
+  if (lower === 'pt' || lower === 'ptbr' || lower.startsWith('pt-')) {
+    return 'ptBR'
+  }
+  const base = lower.split('-')[0]
+  if (base && base !== lower) {
+    const STRIP_OK = ['en', 'de', 'es', 'fr', 'ja', 'ko', 'ru', 'vi']
+    if (STRIP_OK.includes(base)) return base
+  }
+  return value
 }
 
 /**
@@ -91,6 +112,8 @@ export function toIntlLocale(value?: string | null): string | undefined {
       return 'zh-CN'
     case 'zhTW':
       return 'zh-TW'
+    case 'ptBR':
+      return 'pt-BR'
     default:
       break
   }

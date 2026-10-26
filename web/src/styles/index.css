@@ -26,6 +26,11 @@ For commercial licensing, please contact support@quantumnous.com
  * that activates it. Loaded globally so font-switching is instantaneous
  * with no FOUT once the variable is fetched. */
 @import '@fontsource-variable/lora';
+/* @import '@fontsource-variable/inter'; */
+/* @import '@fontsource-variable/space-grotesk'; */
+/* BrushLLM brand faces (Inter + Space Grotesk) are imported from JS in
+ * src/main.tsx — CSS-side @import of fontsource packages hangs vitest's CSS
+ * pipeline (CSS_CHUNK_LOAD_FAILED). */
 
 @import './theme.css';
 @import './theme-presets.css';
@@ -744,4 +749,24 @@ For commercial licensing, please contact support@quantumnous.com
   .auto-group-flow-border {
     display: none;
   }
+}
+
+/* ── BrushLLM signature: hand-drawn brush highlight ────────────────────────
+ * Reproduces the brush-band highlight from brushllm.com behind key words.
+ * Usage: <span class="brush-band">text</span> — violet stroke at 25%. */
+.brush-band {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 100' preserveAspectRatio='none'%3E%3Cpath d='M12 42 L 388 40 L 386 80 L 14 84 Z' fill='%23893CED' fill-opacity='0.25'/%3E%3Cpath d='M28 52 L 372 51' stroke='%23ffffff' stroke-opacity='0.175' stroke-width='6' fill='none'/%3E%3Cpath d='M24 66 L 376 64' stroke='%23ffffff' stroke-opacity='0.1125' stroke-width='3.5' fill='none'/%3E%3C/svg%3E");
+  background-position: 0 60%;
+  background-repeat: no-repeat;
+  background-size: 100% 0.78em;
+  padding: 0 0.125rem;
+}
+.brush-band-mint {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 100' preserveAspectRatio='none'%3E%3Cpath d='M12 42 L 388 40 L 386 80 L 14 84 Z' fill='%232aefc8' fill-opacity='0.35'/%3E%3C/svg%3E");
+  background-position: 0 60%;
+  background-repeat: no-repeat;
+  background-size: 100% 0.78em;
+  padding: 0 0.125rem;
 }

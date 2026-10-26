@@ -32,18 +32,37 @@ describe('convertDetectedLanguage', () => {
   })
 
   test('keeps already-normalized interface codes stable (localStorage round-trip)', () => {
-    // i18next caches `zhTW`/`zhCN` (the supportedLngs codes) to localStorage,
-    // and the detector runs this converter on the cached value at every page
-    // load — if `zhTW` does not survive the round-trip, a user who picked
-    // Traditional Chinese is flipped to Simplified on the next load and the
-    // cache is overwritten, making the flip permanent.
+    // i18next caches `zhTW`/`zhCN`/`ptBR` (the supportedLngs codes) to
+    // localStorage, and the detector runs this converter on the cached value
+    // at every page load — if `zhTW` does not survive the round-trip, a user
+    // who picked Traditional Chinese is flipped to Simplified on the next
+    // load and the cache is overwritten, making the flip permanent.
     expect(convertDetectedLanguage('zhTW')).toBe('zhTW')
     expect(convertDetectedLanguage('zhCN')).toBe('zhCN')
+    expect(convertDetectedLanguage('ptBR')).toBe('ptBR')
   })
 
-  test('passes non-Chinese values through unchanged', () => {
+  test('maps Portuguese locales onto the single ptBR variant', () => {
+    expect(convertDetectedLanguage('pt-BR')).toBe('ptBR')
+    expect(convertDetectedLanguage('pt')).toBe('ptBR')
+    expect(convertDetectedLanguage('pt-PT')).toBe('ptBR')
+  })
+
+  test('strips region subtags so currentOnly matching hits supportedLngs', () => {
+    // `load: 'currentOnly'` only matches exact codes, so a `de-DE` browser
+    // would otherwise fall back to English despite German being supported.
+    expect(convertDetectedLanguage('de-DE')).toBe('de')
+    expect(convertDetectedLanguage('es-MX')).toBe('es')
+    expect(convertDetectedLanguage('fr-FR')).toBe('fr')
+    expect(convertDetectedLanguage('ko-KR')).toBe('ko')
+    expect(convertDetectedLanguage('en-US')).toBe('en')
+  })
+
+  test('passes base codes through unchanged', () => {
     expect(convertDetectedLanguage('en')).toBe('en')
-    expect(convertDetectedLanguage('fr-FR')).toBe('fr-FR')
+    expect(convertDetectedLanguage('fr')).toBe('fr')
     expect(convertDetectedLanguage('ja')).toBe('ja')
+    expect(convertDetectedLanguage('de')).toBe('de')
+    expect(convertDetectedLanguage('ru')).toBe('ru')
   })
 })

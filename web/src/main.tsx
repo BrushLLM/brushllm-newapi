@@ -21,6 +21,11 @@ import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 
+// BrushLLM brand faces, bundled locally (no font CDN). Imported from JS —
+// CSS-side @import of fontsource packages trips vitest's CSS pipeline.
+import '@fontsource-variable/inter'
+import '@fontsource-variable/space-grotesk'
+
 import { installBuildMetadata } from '@/lib/build-metadata'
 import { applyFaviconToDom } from '@/lib/dom-utils'
 import '@/lib/dayjs'
