@@ -39,7 +39,7 @@ for brushllm.com:
 docker run -d --name brushllm \
   -p 3000:3000 \
   -v $(pwd)/data:/data \
-  ghcr.io/brushllm/brushllm-console:latest
+  ghcr.io/brushllm/brushllm-newapi:latest
 ```
 
 Open `http://localhost:3000` and complete the setup wizard. SQLite works out
