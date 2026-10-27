@@ -101,20 +101,25 @@ Design decisions were approved by the owner through 4 demo iterations
 ## 4. 1Panel app store (brushllm-appstore repo)
 
 Format: official data.yml app package (v1.3+/v2). Structure:
-`apps/brushllm/{data.yml, logo.png, README.md, README_en.md, 1.0.0-rc.47/, latest/}`.
-Each version dir: `data.yml` (formFields), `docker-compose.yml`,
-`data/.gitkeep`, `logs/.gitkeep`.
+`apps/brushllm/{data.yml, logo.png, README.md, README_en.md, 1.0.0-rc.47-postgres/}`
+(single variant — the SQLite/MySQL/latest variants were removed at the
+owner's request; only the PostgreSQL variant ships). Version dir:
+`data.yml` (formFields), `docker-compose.yml`, `data/.gitkeep`,
+`logs/.gitkeep`.
 
 - Compose follows the hard rules: `container_name: ${CONTAINER_NAME}`,
   external `1panel-network`, `labels: createdBy: "Apps"`, every `${VAR}`
   declared in formFields, healthcheck `wget /api/status` (image ships wget).
-- Form fields: PANEL_APP_PORT_HTTP (3000), TZ, SESSION_SECRET (random),
-  SQL_DSN (optional, empty=SQLite), REDIS_CONN_STRING (optional).
+- Form fields (1Panel dependency pattern, sub2api-style): PANEL_DB_TYPE
+  (type: apps, select installed PostgreSQL), child PANEL_DB_HOST (auto),
+  PANEL_DB_NAME/USER/USER_PASSWORD (auto-provisioned), PANEL_REDIS_HOST
+  (type: service, key: redis), PANEL_REDIS_ROOT_PASSWORD, plus
+  PANEL_APP_PORT_HTTP (3000), TZ, SESSION_SECRET (random). Compose
+  assembles SQL_DSN (postgres://...) and REDIS_CONN_STRING from these.
 - Install: `install.sh` clones the repo → copies `apps/*` to
   `$PANEL_BASE_DIR/1panel/resource/apps/local/` → user clicks "Sync Local
   Apps" in the panel. Upgrades: re-run script → sync → "Upgradable".
-- Validated with the official `validate_app_package.py` (passes; the only
-  warning is the intentional `:latest` floating tag in the latest/ variant).
+- Validated with the official `validate_app_package.py` (passes).
 - Note: app-level README.md is English-only per owner decision ("all GitHub
   content in English"); the official style guide expects `## 产品介绍` in
   README.md — the validator flags this, but the panel itself does not care.
@@ -141,13 +146,16 @@ Each version dir: `data.yml` (formFields), `docker-compose.yml`,
    appstore README/data.yml github field, source README.
 2. **ghcr package visibility**: repo went public AFTER creation; the first
    Actions push creates the package — check its visibility is public.
-3. **First image build not yet triggered** — push tag `v1.0.0-rc.47` to
-   brushllm-newapi to build `ghcr.io/brushllm/brushllm-newapi:v1.0.0-rc.47`.
+3. Image published: `ghcr.io/brushllm/brushllm-newapi:v1.0.0-rc.47`
+   (multi-arch, public). Rebuilds happen by force-pushing the tag after
+   new commits land on main.
 4. Locale lazy-loading NOT implemented (11 locales ≈ 6.7MB static import in
    the entry chunk) — accepted trade-off, matches upstream architecture.
 5. Channel-protocol strings mentioning "New API" (channel type 60,
    `NewAPIError`, static-keys.ts) are intentionally kept — protocol naming.
-6. The `latest/` appstore variant intentionally uses a floating tag.
+6. Appstore ships a single PostgreSQL variant (`1.0.0-rc.47-postgres`);
+   SQLite/MySQL/latest variants were removed at the owner's request. New
+   releases should keep the `-postgres` suffix for upgrade continuity.
 7. Local dev servers: backend `go run .` (port 3000), frontend
    `bun run dev --port 5173` (web/). Test admin: admin/admin123456 (local
    SQLite only, never committed).
