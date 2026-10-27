@@ -23,6 +23,9 @@ For commercial licensing, please contact support@quantumnous.com
 // System Configuration Defaults
 export const DEFAULT_SYSTEM_NAME = 'BrushLLM'
 export const DEFAULT_LOGO = '/logo.png'
+// Dedicated favicon asset — decoupled from the in-app logo so admin logo
+// overrides only affect the UI, never the browser tab icon.
+export const DEFAULT_FAVICON = '/favicon.png'
 
 // LocalStorage Keys
 export const STORAGE_KEYS = {

@@ -31,6 +31,7 @@ import { applyFaviconToDom } from '@/lib/dom-utils'
 import '@/lib/dayjs'
 import { initializeFrontendCache } from '@/lib/frontend-cache'
 import { createAppQueryClient } from '@/lib/query-client'
+import { DEFAULT_FAVICON } from '@/lib/constants'
 import { readCachedStatus, statusQueryOptions } from '@/lib/status-query'
 
 import { DirectionProvider } from './context/direction-provider'
@@ -76,17 +77,25 @@ if (!rootElement) {
 ;(function initSystemBranding() {
   try {
     if (typeof window === 'undefined' || typeof document === 'undefined') return
+    // Tab title format: "API | <system name>". The system name stays the
+    // brand name everywhere else (sidebar, sign-in, emails).
     const apply = (name: string) => {
-      document.title = name
+      const title = `API | ${name}`
+      document.title = title
       const metaTitle = document.querySelector(
         'meta[name="title"]'
       ) as HTMLMetaElement | null
-      if (metaTitle) metaTitle.setAttribute('content', name)
+      if (metaTitle) metaTitle.setAttribute('content', title)
+    }
+    // Favicon: follows an admin-configured logo, otherwise the dedicated
+    // brand favicon (decoupled from the in-app logo default).
+    const applyFavicon = (logo?: string) => {
+      applyFaviconToDom(logo || DEFAULT_FAVICON)
     }
     // Cache-first
     const cached = readCachedStatus()
     if (cached?.system_name) apply(cached.system_name as string)
-    if (cached?.logo) applyFaviconToDom(cached.logo as string)
+    applyFavicon(cached?.logo as string | undefined)
 
     // Background refresh through the shared cache. This primes ['status']
     // before React mounts, so the root guard and every status consumer reuse
@@ -96,7 +105,7 @@ if (!rootElement) {
       .ensureQueryData(statusQueryOptions)
       .then((s) => {
         if (s?.system_name) apply(s.system_name as string)
-        if (s?.logo) applyFaviconToDom(s.logo as string)
+        applyFavicon(s?.logo as string | undefined)
       })
       .catch(() => {
         /* empty */

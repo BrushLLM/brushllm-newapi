@@ -19,7 +19,7 @@ For commercial licensing, please contact support@quantumnous.com
 import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useCallback } from 'react'
 
-import { DEFAULT_LOGO } from '@/lib/constants'
+import { DEFAULT_FAVICON, DEFAULT_LOGO } from '@/lib/constants'
 import { applyFaviconToDom } from '@/lib/dom-utils'
 import { ensureStatus } from '@/lib/status-query'
 import { useSystemConfigStore } from '@/stores/system-config-store'
@@ -94,7 +94,10 @@ export function useSystemConfig(options: UseSystemConfigOptions = {}) {
       logo,
       () => {
         setLoadedLogoUrl(logo)
-        applyFaviconToDom(logo)
+        // Favicon follows an admin-configured logo only; the default keeps
+        // the dedicated brand favicon, decoupled from the in-app logo.
+        if (logo !== DEFAULT_LOGO) applyFaviconToDom(logo)
+        else applyFaviconToDom(DEFAULT_FAVICON)
       },
       () => {
         if (logo !== DEFAULT_LOGO) {
